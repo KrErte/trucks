@@ -1,0 +1,143 @@
+.fuel-prices-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  margin-bottom: 24px;
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  h1 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 28px;
+  }
+
+  .subtitle {
+    color: #666;
+    margin-top: 4px;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 48px;
+  color: #666;
+}
+
+.empty-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  color: #666;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.country-card {
+  background: #fff !important;
+  border-top: 4px solid #1a237e;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.country-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+
+  .flag {
+    font-size: 24px;
+  }
+
+  .country-name {
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  .country-code {
+    color: #999;
+    font-size: 14px;
+    margin-left: auto;
+  }
+}
+
+.prices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .fuel-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #555;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: #1a237e;
+    }
+  }
+
+  .price-value {
+    .amount {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a237e;
+    }
+
+    .unit {
+      font-size: 13px;
+      color: #999;
+      margin-left: 4px;
+    }
+  }
+}
+
+.updated {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+  font-size: 12px;
+  color: #999;
+}
+
+@media (max-width: 768px) {
+  .fuel-prices-container {
+    padding: 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+}

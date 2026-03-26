@@ -1,0 +1,26 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 24px;
+
+  mat-card {
+    max-width: 400px;
+    width: 100%;
+    padding: 24px;
+    background: #fff !important;
+    border-top: 4px solid #1a237e;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 14px;
+  margin-bottom: 16px;
+}

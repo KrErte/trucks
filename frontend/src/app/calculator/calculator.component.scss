@@ -1,0 +1,532 @@
+.calculator-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+
+  h1 {
+    margin-bottom: 24px;
+    font-weight: 300;
+    font-size: 28px;
+  }
+}
+
+.form-card {
+  margin-bottom: 24px;
+  background: #fff !important;
+  border-top: 4px solid #1a237e;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+
+  .span-2 {
+    grid-column: span 2;
+  }
+
+  .price-row {
+    display: flex;
+    gap: 8px;
+    grid-column: span 2;
+
+    .price-field {
+      flex: 1;
+    }
+    .currency-field {
+      width: 140px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 600px) {
+      grid-column: span 1;
+      flex-direction: column;
+      .currency-field {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    .span-2 {
+      grid-column: span 1;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.calc-button {
+  min-width: 160px;
+  height: 48px;
+  font-size: 16px;
+}
+
+.result-card {
+  margin-bottom: 24px;
+  padding: 8px;
+}
+
+.result-summary {
+  margin-bottom: 24px;
+}
+
+.profit-display {
+  text-align: center;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+
+  .profit-label {
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .profit-value {
+    display: block;
+    font-size: 36px;
+    font-weight: 700;
+  }
+}
+
+.profit-positive {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.profit-negative {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.metric {
+  text-align: center;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 8px;
+
+  .metric-label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .metric-value {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
+
+.cost-breakdown {
+  .cost-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+
+    &.total {
+      font-weight: 700;
+      border-top: 2px solid #333;
+      border-bottom: none;
+      margin-top: 4px;
+      padding-top: 12px;
+    }
+  }
+}
+
+.route-select {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.result-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.saved-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #2e7d32;
+  font-size: 14px;
+}
+
+.waypoint-row {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .waypoint-field {
+    flex: 1;
+  }
+
+  @media (max-width: 600px) {
+    grid-column: span 1;
+  }
+}
+
+.add-waypoint-row {
+  grid-column: span 2;
+  margin-bottom: 8px;
+
+  @media (max-width: 600px) {
+    grid-column: span 1;
+  }
+}
+
+.legs-breakdown {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 8px;
+
+  h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #666;
+  }
+
+  .leg-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .leg-label {
+      font-size: 14px;
+    }
+
+    .leg-value {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+
+.toggle-field {
+  display: flex;
+  align-items: center;
+  padding: 8px 0 16px;
+}
+
+.alternatives-card {
+  margin-bottom: 24px;
+}
+
+.alternatives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.alt-card {
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: #1a237e;
+  }
+
+  &.selected {
+    border-color: #1a237e;
+    background: #e8eaf6;
+  }
+
+  .alt-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+  }
+}
+
+.fuel-optimization-panel {
+  margin-top: 16px;
+}
+
+.fuel-stops-table {
+  width: 100%;
+  margin-top: 12px;
+
+  th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    font-weight: 500;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+}
+
+.savings-summary {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  padding: 16px;
+  background: #e8f5e9;
+  border-radius: 8px;
+
+  .savings-item {
+    text-align: center;
+
+    .savings-label {
+      display: block;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .savings-value {
+      display: block;
+      font-size: 20px;
+      font-weight: 700;
+      color: #2e7d32;
+    }
+  }
+}
+
+.error-card {
+  .error-message {
+    color: #c62828;
+    margin: 0;
+  }
+}
+
+// Pricing suggestion styles
+.pricing-suggest-row {
+  grid-column: span 2;
+  margin-bottom: 8px;
+
+  @media (max-width: 600px) {
+    grid-column: span 1;
+  }
+}
+
+.pricing-tiles {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+
+  @media (max-width: 600px) {
+    grid-column: span 1;
+    grid-template-columns: 1fr;
+  }
+}
+
+.pricing-tile {
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .pricing-tile-badge {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a237e;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .pricing-tile-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .pricing-tile-price {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .pricing-tile-margin {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .pricing-tile-rev {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  .pricing-tile-btn {
+    width: 100%;
+  }
+}
+
+.pricing-tile-min {
+  background: #fff8e1;
+  border: 2px solid #ffc107;
+}
+
+.pricing-tile-optimal {
+  background: #e8f5e9;
+  border: 2px solid #4caf50;
+  padding-top: 20px;
+}
+
+.pricing-tile-premium {
+  background: #fce4ec;
+  border: 2px solid #e91e63;
+}
+
+.pricing-cost-info {
+  grid-column: span 2;
+  font-size: 13px;
+  color: #666;
+  padding: 8px 0;
+  margin-bottom: 8px;
+
+  @media (max-width: 600px) {
+    grid-column: span 1;
+  }
+}
+
+.lane-intel-panel {
+  grid-column: span 2;
+  margin-bottom: 12px;
+
+  @media (max-width: 600px) {
+    grid-column: span 1;
+  }
+}
+
+.lane-intel-content {
+  .lane-intel-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .lane-metric {
+    text-align: center;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 6px;
+
+    .lane-metric-label {
+      display: block;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 2px;
+    }
+
+    .lane-metric-value {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
+  .trend-up { color: #4caf50; }
+  .trend-down { color: #f44336; }
+  .trend-flat { color: #ff9800; }
+
+  .positive { color: #4caf50; }
+  .negative { color: #f44336; }
+}
+
+.lane-match-note {
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+  margin: 8px 0 0;
+}
+
+.market-context {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+
+  h4 {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 0 8px;
+    color: #666;
+  }
+}
+
+@media (max-width: 768px) {
+  .calculator-container {
+    padding: 16px;
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+  }
+
+  .metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .profit-display .profit-value {
+    font-size: 28px;
+  }
+
+  .result-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,2 @@
+ALTER TABLE calculations ADD COLUMN IF NOT EXISTS include_return_trip BOOLEAN DEFAULT FALSE;
+ALTER TABLE calculations ADD COLUMN IF NOT EXISTS return_fuel_cost NUMERIC(12,2) DEFAULT 0;

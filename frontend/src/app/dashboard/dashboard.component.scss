@@ -1,0 +1,253 @@
+.dashboard-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+
+  h1 {
+    margin-bottom: 24px;
+    font-weight: 300;
+    font-size: 28px;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  text-align: center;
+  padding: 24px !important;
+  border-top: 4px solid #1a237e;
+  position: relative;
+  overflow: hidden;
+
+  .stat-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(26, 35, 126, 0.08);
+    margin-bottom: 12px;
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      color: #1a237e;
+    }
+  }
+
+  .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+
+    &.positive { color: #2e7d32; }
+    &.negative { color: #c62828; }
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card {
+  padding: 24px !important;
+  border-top: 4px solid #1a237e;
+
+  h2 {
+    font-weight: 400;
+    margin-bottom: 24px;
+    font-size: 18px;
+  }
+}
+
+// Bar chart
+.bar-chart {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.bar-col {
+  flex: 1;
+  text-align: center;
+  min-width: 0;
+}
+
+.bar-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+.bar-track {
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bar-fill {
+  width: 100%;
+  max-width: 48px;
+  border-radius: 6px 6px 0 0;
+  transition: height 0.5s ease;
+  min-height: 4px;
+
+  &.positive {
+    background: linear-gradient(180deg, #1a237e 0%, #3949ab 100%);
+  }
+  &.negative {
+    background: linear-gradient(180deg, #c62828 0%, #ef5350 100%);
+  }
+}
+
+.bar-label {
+  font-size: 11px;
+  color: #666;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.bar-sub {
+  font-size: 10px;
+  color: #999;
+}
+
+// Donut chart
+.donut-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.donut-svg {
+  width: 180px;
+  height: 180px;
+  transform: rotate(-90deg);
+}
+
+.donut-segment {
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.donut-total-value {
+  transform: rotate(90deg);
+  transform-origin: 100px 100px;
+  font-size: 22px;
+  font-weight: 700;
+  fill: #333;
+}
+
+.donut-total-label {
+  transform: rotate(90deg);
+  transform-origin: 100px 100px;
+  font-size: 11px;
+  fill: #999;
+}
+
+.donut-legend {
+  width: 100%;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f5f5f5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  flex: 1;
+  font-size: 13px;
+  color: #555;
+}
+
+.legend-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.legend-pct {
+  font-size: 12px;
+  color: #999;
+  min-width: 32px;
+  text-align: right;
+}
+
+.vehicle-stats-card {
+  grid-column: 1 / -1;
+}
+
+.vehicle-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+  }
+
+  th {
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  .positive { color: #2e7d32; font-weight: 600; }
+  .negative { color: #c62828; font-weight: 600; }
+}
+
+.no-data-card {
+  text-align: center;
+  padding: 48px !important;
+  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}

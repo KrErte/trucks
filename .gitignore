@@ -1,0 +1,50 @@
+# Java
+target/
+*.class
+*.jar
+
+# Node
+node_modules/
+dist/
+.angular/
+
+# IDE
+.idea/
+.vscode/
+
+# Environment
+.env
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+backend_log*.txt
+mvn_compile.txt
+mvn_output.txt
+ng_build.txt
+ng_output.txt
+
+# Temp scripts
+check*.py
+debug_*.py
+fix_port*.py
+deploy.py
+deploy_remote.py
+redeploy*.py
+run_deploy.py
+verify.py
+test_*.py
+test_api.sh
+create_user.sql
+TestDb.java
+
+# Screenshots
+*.png
+
+# Archives
+*.tar.gz
+
+# Playwright MCP
+.playwright-mcp/

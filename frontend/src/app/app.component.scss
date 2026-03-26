@@ -1,0 +1,69 @@
+.toolbar {
+  background: #1a237e;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 500;
+  margin-right: 24px;
+}
+
+.menu-button {
+  display: none;
+  @media (max-width: 768px) {
+    display: inline-flex;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+
+  a {
+    color: rgba(255, 255, 255, 0.8);
+
+    mat-icon {
+      margin-right: 4px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar button[mat-icon-button] {
+  color: white;
+}
+
+.active-link {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+.sidenav {
+  width: 250px;
+}
+
+.pwa-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px 16px;
+  background: #e8eaf6;
+  color: #1a237e;
+  font-size: 14px;
+}
