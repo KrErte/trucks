@@ -11,10 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,7 +25,6 @@ public class FuelPriceScheduler {
     private static final Logger log = LoggerFactory.getLogger(FuelPriceScheduler.class);
 
     private final FuelPriceService fuelPriceService;
-    private final RestTemplate restTemplate;
 
     @Scheduled(cron = "${fuel.scheduler.cron:0 0 6 * * *}")
     public void updateFuelPrices() {
@@ -145,105 +142,76 @@ public class FuelPriceScheduler {
 
     private int updateEuropeanPrices() {
         int count = 0;
-        try {
-            // EU Weekly Oil Bulletin CSV data
-            String url = "https://ec.europa.eu/energy/observatory/reports/latest_prices.csv";
-            String csv = restTemplate.getForObject(url, String.class);
 
-            if (csv == null || csv.isBlank()) {
-                log.warn("Empty response from EU Oil Bulletin");
-                return 0;
-            }
+        // Country code -> fuel-prices.eu URL path
+        Map<String, String> countries = new LinkedHashMap<>();
+        countries.put("LV", "Latvia");
+        countries.put("LT", "Lithuania");
+        countries.put("DE", "Germany");
+        countries.put("FI", "Finland");
+        countries.put("PL", "Poland");
+        countries.put("SE", "Sweden");
+        countries.put("FR", "France");
+        countries.put("NL", "Netherlands");
+        countries.put("BE", "Belgium");
+        countries.put("AT", "Austria");
+        countries.put("IT", "Italy");
+        countries.put("ES", "Spain");
 
-            // Map of EU country codes we're interested in
-            Map<String, String> countryMapping = new LinkedHashMap<>();
-            countryMapping.put("DE", "DE");
-            countryMapping.put("FI", "FI");
-            countryMapping.put("LV", "LV");
-            countryMapping.put("LT", "LT");
-            countryMapping.put("PL", "PL");
-            countryMapping.put("SE", "SE");
-            countryMapping.put("FR", "FR");
-            countryMapping.put("NL", "NL");
-            countryMapping.put("BE", "BE");
-            countryMapping.put("AT", "AT");
-            countryMapping.put("IT", "IT");
-            countryMapping.put("ES", "ES");
+        for (Map.Entry<String, String> entry : countries.entrySet()) {
+            try {
+                // Rate limit: small delay between requests
+                Thread.sleep(500);
 
-            String[] lines = csv.split("\n");
-            if (lines.length < 2) {
-                log.warn("EU Oil Bulletin CSV has insufficient data");
-                return 0;
-            }
+                String url = "https://www.fuel-prices.eu/" + entry.getValue() + "/";
+                Document doc = Jsoup.connect(url)
+                        .userAgent("Mozilla/5.0 (FuelFleet Bot)")
+                        .timeout(15000)
+                        .get();
 
-            // Parse header to find diesel column
-            String[] headers = lines[0].split("[,;\t]");
-            int dieselCol = -1;
-            int countryCol = -1;
-            for (int i = 0; i < headers.length; i++) {
-                String h = headers[i].toLowerCase().trim();
-                if (h.contains("diesel") || h.contains("gas oil")) {
-                    dieselCol = i;
-                } else if (h.contains("country") || h.contains("member")) {
-                    countryCol = i;
-                }
-            }
+                // fuel-prices.eu shows prices like "€1.234" or "€ 1.234" on country pages
+                String bodyText = doc.body().text();
 
-            if (dieselCol < 0 || countryCol < 0) {
-                log.warn("Could not find diesel/country columns in EU Oil Bulletin CSV. Headers: {}", lines[0]);
-                return count;
-            }
-
-            for (int i = 1; i < lines.length; i++) {
-                String[] cols = lines[i].split("[,;\t]");
-                if (cols.length <= Math.max(dieselCol, countryCol)) continue;
-
-                String country = cols[countryCol].trim().toUpperCase();
-                // Handle full country names or codes
-                String code = resolveCountryCode(country);
-                if (code == null || !countryMapping.containsKey(code)) continue;
-
-                String priceStr = cols[dieselCol].trim().replace(",", ".");
-                if (priceStr.isEmpty()) continue;
-
-                try {
-                    // EU Oil Bulletin prices are in EUR per 1000 liters
-                    BigDecimal pricePer1000L = new BigDecimal(priceStr);
-                    BigDecimal pricePerLiter = pricePer1000L.divide(new BigDecimal("1000"), 3, RoundingMode.HALF_UP);
-
-                    if (pricePerLiter.compareTo(new BigDecimal("0.5")) >= 0 && pricePerLiter.compareTo(new BigDecimal("5.0")) <= 0) {
-                        savePrice(code, "DIESEL", pricePerLiter, "EU Oil Bulletin");
+                // Look for diesel price pattern
+                java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(
+                        "(?i)diesel[^€]*€\\s*(\\d+[.,]\\d{2,3})"
+                );
+                java.util.regex.Matcher matcher = pattern.matcher(bodyText);
+                if (matcher.find()) {
+                    String priceStr = matcher.group(1).replace(",", ".");
+                    BigDecimal price = new BigDecimal(priceStr);
+                    if (price.compareTo(new BigDecimal("0.5")) >= 0 && price.compareTo(new BigDecimal("5.0")) <= 0) {
+                        savePrice(entry.getKey(), "DIESEL", price, "fuel-prices.eu");
                         count++;
-                        log.info("Updated {} DIESEL price: {} EUR/L (EU Oil Bulletin)", code, pricePerLiter);
+                        log.info("Updated {} DIESEL price: {} EUR/L (fuel-prices.eu)", entry.getKey(), price);
                     }
-                } catch (NumberFormatException e) {
-                    // skip
+                } else {
+                    // Fallback: try to find any price-like pattern near "diesel"
+                    java.util.regex.Pattern fallback = java.util.regex.Pattern.compile(
+                            "(?i)diesel[\\s\\S]{0,100}?(\\d+[.,]\\d{2,3})\\s*(?:€|EUR|eur)"
+                    );
+                    java.util.regex.Matcher fbMatcher = fallback.matcher(bodyText);
+                    if (fbMatcher.find()) {
+                        String priceStr = fbMatcher.group(1).replace(",", ".");
+                        BigDecimal price = new BigDecimal(priceStr);
+                        if (price.compareTo(new BigDecimal("0.5")) >= 0 && price.compareTo(new BigDecimal("5.0")) <= 0) {
+                            savePrice(entry.getKey(), "DIESEL", price, "fuel-prices.eu");
+                            count++;
+                            log.info("Updated {} DIESEL price: {} EUR/L (fuel-prices.eu fallback)", entry.getKey(), price);
+                        }
+                    } else {
+                        log.warn("Could not parse diesel price for {} from fuel-prices.eu", entry.getKey());
+                    }
                 }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            } catch (Exception e) {
+                log.error("Failed to fetch fuel price for {}: {}", entry.getKey(), e.getMessage());
             }
-        } catch (Exception e) {
-            log.error("Failed to fetch European fuel prices from EU Oil Bulletin: {}", e.getMessage());
         }
-        return count;
-    }
 
-    private String resolveCountryCode(String input) {
-        if (input.length() == 2) return input;
-        return switch (input) {
-            case "GERMANY" -> "DE";
-            case "FINLAND" -> "FI";
-            case "LATVIA" -> "LV";
-            case "LITHUANIA" -> "LT";
-            case "POLAND" -> "PL";
-            case "SWEDEN" -> "SE";
-            case "FRANCE" -> "FR";
-            case "NETHERLANDS" -> "NL";
-            case "BELGIUM" -> "BE";
-            case "AUSTRIA" -> "AT";
-            case "ITALY" -> "IT";
-            case "SPAIN" -> "ES";
-            case "ESTONIA" -> "EE";
-            default -> null;
-        };
+        return count;
     }
 
     private void savePrice(String countryCode, String fuelType, BigDecimal price, String source) {
