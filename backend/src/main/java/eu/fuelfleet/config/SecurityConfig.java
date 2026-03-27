@@ -44,7 +44,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/users/invite/accept").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/fuel-prices/refresh").authenticated()
                         .requestMatchers("/api/fuel-prices/**").permitAll()
                         .requestMatchers("/api/company-search/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
