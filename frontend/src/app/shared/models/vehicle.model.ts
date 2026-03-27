@@ -11,6 +11,17 @@ export interface Vehicle {
   tireCostPerKm?: number;
   depreciationPerKm?: number;
   insurancePerDay?: number;
+  axleConfiguration?: string;
+  numberOfAxles?: number;
+  grossWeight?: number;
+  netWeight?: number;
+  powerHp?: number;
+  displacementCc?: number;
+  gearbox?: string;
+  suspension?: string;
+  source?: string;
+  sourceId?: string;
+  sourceUrl?: string;
 }
 
 export interface VehicleRequest {
@@ -24,4 +35,40 @@ export interface VehicleRequest {
   tireCostPerKm?: number;
   depreciationPerKm?: number;
   insurancePerDay?: number;
+  axleConfiguration?: string;
+  numberOfAxles?: number;
+  grossWeight?: number;
+  netWeight?: number;
+  powerHp?: number;
+  displacementCc?: number;
+  gearbox?: string;
+  suspension?: string;
+  source?: string;
+  sourceId?: string;
+  sourceUrl?: string;
+}
+
+export interface ScrapedTruckData {
+  sourceId?: string;
+  sourceUrl?: string;
+  name?: string;
+  brand?: string;
+  model?: string;
+  year?: number;
+  fuelType?: string;
+  euroClass?: string;
+  price?: number;
+  currency?: string;
+  axleConfiguration?: string;
+  numberOfAxles?: number;
+  grossWeight?: number;
+  netWeight?: number;
+  powerHp?: number;
+  displacementCc?: number;
+  gearbox?: string;
+  suspension?: string;
+  tankCapacity?: number;
+  mileageKm?: number;
+  imageUrl?: string;
+  location?: string;
 }

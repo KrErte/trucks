@@ -9,9 +9,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { VehicleService } from '../shared/services/vehicle.service';
-import { Vehicle } from '../shared/models/vehicle.model';
+import { Vehicle, ScrapedTruckData } from '../shared/models/vehicle.model';
+import { Truck1ImportDialogComponent } from './truck1-import-dialog.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -19,16 +21,22 @@ import { Vehicle } from '../shared/models/vehicle.model';
   imports: [
     CommonModule, ReactiveFormsModule, MatCardModule, MatTableModule,
     MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatSelectModule,
-    MatExpansionModule, TranslateModule
+    MatExpansionModule, MatDialogModule, TranslateModule
   ],
   template: `
     <div class="vehicles-container">
       <div class="header">
         <h1>{{ 'vehicles.title' | translate }}</h1>
-        <button mat-raised-button color="primary" (click)="showForm = !showForm">
-          <mat-icon>{{ showForm ? 'close' : 'add' }}</mat-icon>
-          {{ showForm ? ('vehicles.cancel' | translate) : ('vehicles.add' | translate) }}
-        </button>
+        <div class="header-actions">
+          <button mat-raised-button color="accent" (click)="openImportDialog()">
+            <mat-icon>cloud_download</mat-icon>
+            {{ 'vehicles.import_from_truck1' | translate }}
+          </button>
+          <button mat-raised-button color="primary" (click)="showForm = !showForm">
+            <mat-icon>{{ showForm ? 'close' : 'add' }}</mat-icon>
+            {{ showForm ? ('vehicles.cancel' | translate) : ('vehicles.add' | translate) }}
+          </button>
+        </div>
       </div>
 
       @if (showForm) {
@@ -74,6 +82,41 @@ import { Vehicle } from '../shared/models/vehicle.model';
               <mat-accordion>
                 <mat-expansion-panel>
                   <mat-expansion-panel-header>
+                    <mat-panel-title>{{ 'vehicles_extra.technical_specs' | translate }}</mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="form-grid">
+                    <mat-form-field appearance="outline">
+                      <mat-label>{{ 'vehicles.power_hp' | translate }}</mat-label>
+                      <input matInput formControlName="powerHp" type="number" />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>{{ 'vehicles.axle_config' | translate }}</mat-label>
+                      <input matInput formControlName="axleConfiguration" placeholder="4x2, 6x4..." />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>{{ 'vehicles.gross_weight' | translate }}</mat-label>
+                      <input matInput formControlName="grossWeight" type="number" step="0.1" />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>{{ 'vehicles.gearbox' | translate }}</mat-label>
+                      <mat-select formControlName="gearbox">
+                        <mat-option value="">-</mat-option>
+                        <mat-option value="automatic">{{ 'vehicles.automatic' | translate }}</mat-option>
+                        <mat-option value="manual">{{ 'vehicles.manual' | translate }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>{{ 'vehicles.suspension' | translate }}</mat-label>
+                      <input matInput formControlName="suspension" placeholder="air, spring..." />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>{{ 'vehicles.displacement_cc' | translate }}</mat-label>
+                      <input matInput formControlName="displacementCc" type="number" />
+                    </mat-form-field>
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
                     <mat-panel-title>{{ 'vehicles_extra.additional_costs' | translate }}</mat-panel-title>
                   </mat-expansion-panel-header>
                   <div class="form-grid">
@@ -108,7 +151,12 @@ import { Vehicle } from '../shared/models/vehicle.model';
         <table mat-table [dataSource]="vehicles" class="full-width">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>{{ 'vehicles.name' | translate }}</th>
-            <td mat-cell *matCellDef="let v">{{ v.name }}</td>
+            <td mat-cell *matCellDef="let v">
+              {{ v.name }}
+              @if (v.source === 'TRUCK1') {
+                <mat-icon style="font-size: 14px; height: 14px; width: 14px; vertical-align: middle; color: #666;" matTooltip="Imported from Truck1">cloud_done</mat-icon>
+              }
+            </td>
           </ng-container>
           <ng-container matColumnDef="fuelType">
             <th mat-header-cell *matHeaderCellDef>{{ 'vehicles.col_fuel' | translate }}</th>
@@ -149,6 +197,7 @@ import { Vehicle } from '../shared/models/vehicle.model';
 export class VehiclesComponent implements OnInit {
   private fb = inject(FormBuilder);
   private vehicleService = inject(VehicleService);
+  private dialog = inject(MatDialog);
 
   vehicles: Vehicle[] = [];
   showForm = false;
@@ -165,7 +214,13 @@ export class VehiclesComponent implements OnInit {
     maintenanceCostPerKm: [null as number | null],
     tireCostPerKm: [null as number | null],
     depreciationPerKm: [null as number | null],
-    insurancePerDay: [null as number | null]
+    insurancePerDay: [null as number | null],
+    powerHp: [null as number | null],
+    axleConfiguration: [''],
+    grossWeight: [null as number | null],
+    gearbox: [''],
+    suspension: [''],
+    displacementCc: [null as number | null]
   });
 
   ngOnInit(): void {
@@ -186,7 +241,7 @@ export class VehiclesComponent implements OnInit {
       this.loadVehicles();
       this.showForm = false;
       this.editingId = null;
-      this.form.reset({ fuelType: 'DIESEL', euroClass: 'EURO_6', maintenanceCostPerKm: null, tireCostPerKm: null, depreciationPerKm: null, insurancePerDay: null });
+      this.form.reset({ fuelType: 'DIESEL', euroClass: 'EURO_6' });
     });
   }
 
@@ -198,5 +253,33 @@ export class VehiclesComponent implements OnInit {
 
   delete(v: Vehicle): void {
     this.vehicleService.deleteVehicle(v.id).subscribe(() => this.loadVehicles());
+  }
+
+  openImportDialog(): void {
+    const dialogRef = this.dialog.open(Truck1ImportDialogComponent, {
+      width: '700px',
+      maxHeight: '90vh'
+    });
+
+    dialogRef.afterClosed().subscribe((truck: ScrapedTruckData | undefined) => {
+      if (!truck) return;
+      // Pre-fill the form with scraped data
+      this.editingId = null;
+      this.showForm = true;
+      this.form.patchValue({
+        name: truck.name || '',
+        fuelType: truck.fuelType || 'DIESEL',
+        tankCapacity: truck.tankCapacity || null,
+        euroClass: truck.euroClass || 'EURO_6',
+        powerHp: truck.powerHp || null,
+        axleConfiguration: truck.axleConfiguration || '',
+        grossWeight: truck.grossWeight || null,
+        gearbox: truck.gearbox || '',
+        suspension: truck.suspension || '',
+        displacementCc: truck.displacementCc || null,
+        consumptionLoaded: null,
+        consumptionEmpty: null
+      });
+    });
   }
 }

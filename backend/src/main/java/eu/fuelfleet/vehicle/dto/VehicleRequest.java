@@ -14,7 +14,18 @@ public record VehicleRequest(
         BigDecimal maintenanceCostPerKm,
         BigDecimal tireCostPerKm,
         BigDecimal depreciationPerKm,
-        BigDecimal insurancePerDay
+        BigDecimal insurancePerDay,
+        String axleConfiguration,
+        Integer numberOfAxles,
+        BigDecimal grossWeight,
+        BigDecimal netWeight,
+        Integer powerHp,
+        Integer displacementCc,
+        String gearbox,
+        String suspension,
+        String source,
+        String sourceId,
+        String sourceUrl
 ) {
     public VehicleRequest {
         if (fuelType == null || fuelType.isBlank()) {

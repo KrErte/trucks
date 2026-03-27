@@ -57,6 +57,21 @@ public class VehicleController {
                 .consumptionEmpty(request.consumptionEmpty())
                 .tankCapacity(request.tankCapacity())
                 .euroClass(request.euroClass())
+                .maintenanceCostPerKm(request.maintenanceCostPerKm())
+                .tireCostPerKm(request.tireCostPerKm())
+                .depreciationPerKm(request.depreciationPerKm())
+                .insurancePerDay(request.insurancePerDay())
+                .axleConfiguration(request.axleConfiguration())
+                .numberOfAxles(request.numberOfAxles())
+                .grossWeight(request.grossWeight())
+                .netWeight(request.netWeight())
+                .powerHp(request.powerHp())
+                .displacementCc(request.displacementCc())
+                .gearbox(request.gearbox())
+                .suspension(request.suspension())
+                .source(request.source() != null ? request.source() : "MANUAL")
+                .sourceId(request.sourceId())
+                .sourceUrl(request.sourceUrl())
                 .build();
 
         Vehicle saved = vehicleService.createVehicle(principal.getCompanyId(), vehicle);
@@ -75,6 +90,18 @@ public class VehicleController {
                 .consumptionEmpty(request.consumptionEmpty())
                 .tankCapacity(request.tankCapacity())
                 .euroClass(request.euroClass())
+                .maintenanceCostPerKm(request.maintenanceCostPerKm())
+                .tireCostPerKm(request.tireCostPerKm())
+                .depreciationPerKm(request.depreciationPerKm())
+                .insurancePerDay(request.insurancePerDay())
+                .axleConfiguration(request.axleConfiguration())
+                .numberOfAxles(request.numberOfAxles())
+                .grossWeight(request.grossWeight())
+                .netWeight(request.netWeight())
+                .powerHp(request.powerHp())
+                .displacementCc(request.displacementCc())
+                .gearbox(request.gearbox())
+                .suspension(request.suspension())
                 .build();
 
         Vehicle updated = vehicleService.updateVehicle(id, principal.getCompanyId(), updates);

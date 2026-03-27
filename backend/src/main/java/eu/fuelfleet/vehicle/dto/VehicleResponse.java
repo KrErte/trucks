@@ -17,7 +17,18 @@ public record VehicleResponse(
         BigDecimal maintenanceCostPerKm,
         BigDecimal tireCostPerKm,
         BigDecimal depreciationPerKm,
-        BigDecimal insurancePerDay
+        BigDecimal insurancePerDay,
+        String axleConfiguration,
+        Integer numberOfAxles,
+        BigDecimal grossWeight,
+        BigDecimal netWeight,
+        Integer powerHp,
+        Integer displacementCc,
+        String gearbox,
+        String suspension,
+        String source,
+        String sourceId,
+        String sourceUrl
 ) {
     public static VehicleResponse fromEntity(Vehicle v) {
         return new VehicleResponse(
@@ -32,7 +43,18 @@ public record VehicleResponse(
                 v.getMaintenanceCostPerKm(),
                 v.getTireCostPerKm(),
                 v.getDepreciationPerKm(),
-                v.getInsurancePerDay()
+                v.getInsurancePerDay(),
+                v.getAxleConfiguration(),
+                v.getNumberOfAxles(),
+                v.getGrossWeight(),
+                v.getNetWeight(),
+                v.getPowerHp(),
+                v.getDisplacementCc(),
+                v.getGearbox(),
+                v.getSuspension(),
+                v.getSource(),
+                v.getSourceId(),
+                v.getSourceUrl()
         );
     }
 }

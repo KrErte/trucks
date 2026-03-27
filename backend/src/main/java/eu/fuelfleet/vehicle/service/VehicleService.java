@@ -51,6 +51,14 @@ public class VehicleService {
         vehicle.setTireCostPerKm(updates.getTireCostPerKm());
         vehicle.setDepreciationPerKm(updates.getDepreciationPerKm());
         vehicle.setInsurancePerDay(updates.getInsurancePerDay());
+        vehicle.setAxleConfiguration(updates.getAxleConfiguration());
+        vehicle.setNumberOfAxles(updates.getNumberOfAxles());
+        vehicle.setGrossWeight(updates.getGrossWeight());
+        vehicle.setNetWeight(updates.getNetWeight());
+        vehicle.setPowerHp(updates.getPowerHp());
+        vehicle.setDisplacementCc(updates.getDisplacementCc());
+        vehicle.setGearbox(updates.getGearbox());
+        vehicle.setSuspension(updates.getSuspension());
         return vehicleRepository.save(vehicle);
     }
 

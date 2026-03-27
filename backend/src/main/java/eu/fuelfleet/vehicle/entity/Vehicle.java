@@ -54,6 +54,37 @@ public class Vehicle {
     @Column(name = "insurance_per_day")
     private BigDecimal insurancePerDay;
 
+    @Column(name = "axle_configuration")
+    private String axleConfiguration;
+
+    @Column(name = "number_of_axles")
+    private Integer numberOfAxles;
+
+    @Column(name = "gross_weight")
+    private BigDecimal grossWeight;
+
+    @Column(name = "net_weight")
+    private BigDecimal netWeight;
+
+    @Column(name = "power_hp")
+    private Integer powerHp;
+
+    @Column(name = "displacement_cc")
+    private Integer displacementCc;
+
+    private String gearbox;
+
+    private String suspension;
+
+    @Column(length = 50)
+    private String source;
+
+    @Column(name = "source_id", length = 50)
+    private String sourceId;
+
+    @Column(name = "source_url", length = 500)
+    private String sourceUrl;
+
     @Column(nullable = false)
     private boolean active;
 
