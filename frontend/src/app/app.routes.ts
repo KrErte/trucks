@@ -33,5 +33,9 @@ export const routes: Routes = [
   { path: 'analytics', loadComponent: () => import('./analytics/analytics.component').then(m => m.AnalyticsComponent), canActivate: [authGuard] },
   { path: 'webhooks', loadComponent: () => import('./webhooks/webhooks.component').then(m => m.WebhooksComponent), canActivate: [authGuard, roleGuard('ADMIN')] },
   { path: 'invoices', loadComponent: () => import('./invoices/invoices.component').then(m => m.InvoicesComponent), canActivate: [authGuard] },
+  { path: 'drivers', loadComponent: () => import('./drivers/drivers.component').then(m => m.DriversComponent), canActivate: [authGuard] },
+  { path: 'customers', loadComponent: () => import('./customers/customers.component').then(m => m.CustomersComponent), canActivate: [authGuard] },
+  { path: 'maintenance', loadComponent: () => import('./maintenance/maintenance.component').then(m => m.MaintenanceComponent), canActivate: [authGuard] },
+  { path: 'documents', loadComponent: () => import('./documents/documents.component').then(m => m.DocumentsComponent), canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];

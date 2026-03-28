@@ -60,6 +60,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
             <h3>{{ 'landing.feature_fuel_title' | translate }}</h3>
             <p>{{ 'landing.feature_fuel_desc' | translate }}</p>
           </div>
+          <div class="feature">
+            <div class="feature-icon"><mat-icon>toll</mat-icon></div>
+            <h3>{{ 'landing.feature_toll_title' | translate }}</h3>
+            <p>{{ 'landing.feature_toll_desc' | translate }}</p>
+          </div>
 <div class="feature">
             <div class="feature-icon"><mat-icon>trending_up</mat-icon></div>
             <h3>{{ 'landing.feature_profit_title' | translate }}</h3>
@@ -73,13 +78,70 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
         </div>
       </section>
 
+      <!-- How it works -->
+      <section class="how-it-works">
+        <div class="how-inner">
+          <h2>{{ 'landing.how_it_works' | translate }}</h2>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-icon"><mat-icon>local_shipping</mat-icon></div>
+              <h3>{{ 'landing.step1_title' | translate }}</h3>
+              <p>{{ 'landing.step1_desc' | translate }}</p>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-icon"><mat-icon>calculate</mat-icon></div>
+              <h3>{{ 'landing.step2_title' | translate }}</h3>
+              <p>{{ 'landing.step2_desc' | translate }}</p>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-icon"><mat-icon>trending_up</mat-icon></div>
+              <h3>{{ 'landing.step3_title' | translate }}</h3>
+              <p>{{ 'landing.step3_desc' | translate }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="testimonials">
+        <div class="testimonials-inner">
+          <h2>{{ 'landing.testimonials' | translate }}</h2>
+          <div class="testimonial-grid">
+            <div class="testimonial">
+              <p class="testimonial-text">"{{ 'landing.testimonial1_text' | translate }}"</p>
+              <div class="testimonial-author">
+                <strong>{{ 'landing.testimonial1_author' | translate }}</strong>
+                <span>{{ 'landing.testimonial1_company' | translate }}</span>
+              </div>
+            </div>
+            <div class="testimonial">
+              <p class="testimonial-text">"{{ 'landing.testimonial2_text' | translate }}"</p>
+              <div class="testimonial-author">
+                <strong>{{ 'landing.testimonial2_author' | translate }}</strong>
+                <span>{{ 'landing.testimonial2_company' | translate }}</span>
+              </div>
+            </div>
+            <div class="testimonial">
+              <p class="testimonial-text">"{{ 'landing.testimonial3_text' | translate }}"</p>
+              <div class="testimonial-author">
+                <strong>{{ 'landing.testimonial3_author' | translate }}</strong>
+                <span>{{ 'landing.testimonial3_company' | translate }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Pricing -->
       <section class="pricing">
         <div class="pricing-inner">
           <h2>{{ 'landing.pricing' | translate }}</h2>
           <div class="plans">
             <div class="plan">
-              <h3>Algaja</h3>
+              <h3>{{ 'landing.plan_starter' | translate }}</h3>
               <div class="price">&euro;49<span>{{ 'landing.per_month' | translate }}</span></div>
               <ul>
                 <li>{{ 'landing.starter_vehicles' | translate }}</li>
@@ -90,7 +152,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
               <a mat-flat-button routerLink="/register" class="plan-btn">{{ 'landing.start' | translate }}</a>
             </div>
             <div class="plan plan-featured">
-              <h3>Edasijõudnud</h3>
+              <h3>{{ 'landing.plan_growth' | translate }}</h3>
               <div class="price">&euro;129<span>{{ 'landing.per_month' | translate }}</span></div>
               <ul>
                 <li>{{ 'landing.growth_vehicles' | translate }}</li>
@@ -101,7 +163,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
               <a mat-flat-button routerLink="/register" class="plan-btn">{{ 'landing.start' | translate }}</a>
             </div>
             <div class="plan">
-              <h3>Suurfirma</h3>
+              <h3>{{ 'landing.plan_enterprise' | translate }}</h3>
               <div class="price">&euro;199<span>{{ 'landing.per_month' | translate }}</span></div>
               <ul>
                 <li>{{ 'landing.unlimited_vehicles' | translate }}</li>
@@ -111,6 +173,31 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
               </ul>
               <a mat-flat-button routerLink="/register" class="plan-btn">{{ 'landing.contact' | translate }}</a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq">
+        <div class="faq-inner">
+          <h2>{{ 'landing.faq' | translate }}</h2>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>{{ 'landing.faq1_q' | translate }}</summary>
+              <p>{{ 'landing.faq1_a' | translate }}</p>
+            </details>
+            <details class="faq-item">
+              <summary>{{ 'landing.faq2_q' | translate }}</summary>
+              <p>{{ 'landing.faq2_a' | translate }}</p>
+            </details>
+            <details class="faq-item">
+              <summary>{{ 'landing.faq3_q' | translate }}</summary>
+              <p>{{ 'landing.faq3_a' | translate }}</p>
+            </details>
+            <details class="faq-item">
+              <summary>{{ 'landing.faq4_q' | translate }}</summary>
+              <p>{{ 'landing.faq4_a' | translate }}</p>
+            </details>
           </div>
         </div>
       </section>

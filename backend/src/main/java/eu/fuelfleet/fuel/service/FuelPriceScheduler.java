@@ -157,6 +157,16 @@ public class FuelPriceScheduler {
         countries.put("AT", "Austria");
         countries.put("IT", "Italy");
         countries.put("ES", "Spain");
+        countries.put("CZ", "Czech Republic");
+        countries.put("HU", "Hungary");
+        countries.put("DK", "Denmark");
+        countries.put("NO", "Norway");
+        countries.put("SK", "Slovakia");
+        countries.put("RO", "Romania");
+        countries.put("BG", "Bulgaria");
+        countries.put("HR", "Croatia");
+        countries.put("SI", "Slovenia");
+        countries.put("CH", "Switzerland");
 
         for (Map.Entry<String, String> entry : countries.entrySet()) {
             try {
