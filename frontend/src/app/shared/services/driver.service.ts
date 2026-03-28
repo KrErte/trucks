@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 export interface Driver {
   id?: string;
@@ -25,7 +24,7 @@ export interface Driver {
 @Injectable({ providedIn: 'root' })
 export class DriverService {
   private http = inject(HttpClient);
-  private api = `${environment.apiUrl}/drivers`;
+  private api = '/api/drivers';
 
   getAll(): Observable<Driver[]> { return this.http.get<Driver[]>(this.api); }
   getActive(): Observable<Driver[]> { return this.http.get<Driver[]>(`${this.api}/active`); }

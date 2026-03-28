@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 export interface Customer {
   id?: string;
@@ -21,7 +20,7 @@ export interface Customer {
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
   private http = inject(HttpClient);
-  private api = `${environment.apiUrl}/customers`;
+  private api = '/api/customers';
 
   getAll(): Observable<Customer[]> { return this.http.get<Customer[]>(this.api); }
   getActive(): Observable<Customer[]> { return this.http.get<Customer[]>(`${this.api}/active`); }
