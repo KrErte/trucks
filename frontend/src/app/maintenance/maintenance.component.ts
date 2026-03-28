@@ -11,7 +11,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaintenanceService, MaintenanceRecord } from '../shared/services/maintenance.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 
 interface VehicleOption { id: string; name: string; }
 
@@ -175,7 +174,7 @@ export class MaintenanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
-    this.http.get<any[]>(`${environment.apiUrl}/vehicles`).subscribe(v => this.vehicles = v.map(x => ({ id: x.id, name: x.name })));
+    this.http.get<any[]>(`/api/vehicles`).subscribe(v => this.vehicles = v.map(x => ({ id: x.id, name: x.name })));
   }
 
   load(): void {

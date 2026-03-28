@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 export interface MaintenanceRecord {
   id?: string;
@@ -21,7 +20,7 @@ export interface MaintenanceRecord {
 @Injectable({ providedIn: 'root' })
 export class MaintenanceService {
   private http = inject(HttpClient);
-  private api = `${environment.apiUrl}/maintenance`;
+  private api = '/api/maintenance';
 
   getAll(): Observable<MaintenanceRecord[]> { return this.http.get<MaintenanceRecord[]>(this.api); }
   getByVehicle(vehicleId: string): Observable<MaintenanceRecord[]> { return this.http.get<MaintenanceRecord[]>(`${this.api}/vehicle/${vehicleId}`); }

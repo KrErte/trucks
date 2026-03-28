@@ -11,7 +11,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentService, VehicleDoc } from '../shared/services/document.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-documents',
@@ -171,8 +170,8 @@ export class DocumentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
-    this.http.get<any[]>(`${environment.apiUrl}/vehicles`).subscribe(v => this.vehicles = v.map(x => ({ id: x.id, name: x.name })));
-    this.http.get<any[]>(`${environment.apiUrl}/drivers/active`).subscribe(d => this.drivers = d.map(x => ({ id: x.id, name: x.firstName + ' ' + x.lastName })));
+    this.http.get<any[]>(`/api/vehicles`).subscribe(v => this.vehicles = v.map(x => ({ id: x.id, name: x.name })));
+    this.http.get<any[]>(`/api/drivers/active`).subscribe(d => this.drivers = d.map(x => ({ id: x.id, name: x.firstName + ' ' + x.lastName })));
   }
 
   load(): void {
